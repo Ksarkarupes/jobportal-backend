@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "https://jobportal-frontend-two.vercel.app/")
 public class JobRestController {
 
     @Autowired
