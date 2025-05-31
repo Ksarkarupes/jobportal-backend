@@ -1,9 +1,12 @@
 package com.jobPortal.job_portal_backend;
 
+import com.jobPortal.job_portal_backend.DTO.SupportMessageDTO;
 import com.jobPortal.job_portal_backend.DTO.UserDTO;
 import com.jobPortal.job_portal_backend.models.JobApplication;
 import com.jobPortal.job_portal_backend.models.Jobs;
+import com.jobPortal.job_portal_backend.models.SupportMessage;
 import com.jobPortal.job_portal_backend.models.User;
+import com.jobPortal.job_portal_backend.repository.SupportMessageRepository;
 import com.jobPortal.job_portal_backend.service.JobApplicationService;
 import com.jobPortal.job_portal_backend.service.JobService;
 import com.jobPortal.job_portal_backend.service.UserService;
@@ -29,6 +32,9 @@ public class JobRestController {
 
     @Autowired
     JobApplicationService jobApplicationService;
+
+    @Autowired
+    SupportMessageRepository supportMessageRepository;
 
     @GetMapping("jobs")
     public List<Jobs> viewJobs(){
@@ -117,5 +123,16 @@ public class JobRestController {
                     .body(Map.of("error", "Something went wrong. Please try again later."));
         }
 
+    }
+
+    @PostMapping("/support")
+    public ResponseEntity<String> submitSupportMessage(@RequestBody SupportMessageDTO dto) {
+        SupportMessage message = new SupportMessage();
+        message.setName(dto.getName());
+        message.setEmail(dto.getEmail());
+        message.setMessage(dto.getMessage());
+        supportMessageRepository.save(message);
+
+        return ResponseEntity.ok("Support message submitted successfully.");
     }
 }
